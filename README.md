@@ -15,6 +15,7 @@ So the minimal here is a minimal configuration for:
 - tmux
 - Alacritty
 - Zellij
+- Fastfetch
 
 Everything is managed by GNU Stow
 

@@ -1,19 +1,22 @@
+# JetBrains Mono (Nerd Font: icons for nvim, zellij, prompt).
 [font]
 size = 18.0
 
+[font.normal]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Regular"
+
 [font.bold]
-family = "JetBrainsMono Nerd Font"
+family = "JetBrainsMono Nerd Font Mono"
 style = "Bold"
 
-[font.bold_italic]
-family = "JetBrainsMono Nerd Font"
-
 [font.italic]
-family = "JetBrainsMono Nerd Font"
+family = "JetBrainsMono Nerd Font Mono"
+style = "Italic"
 
-[font.normal]
-family = "JetBrainsMono Nerd Font"
-style = "Regular"
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold Italic"
 
 [window.padding]
 x = 10
@@ -23,7 +26,69 @@ y = 5
 opacity = 0.9
 option_as_alt = "OnlyLeft"
 decorations = "Buttonless"
+dimensions = { columns = 120, lines = 35 }
+position = { x = 400, y = 250 }
 # startup_mode = "Fullscreen"
 
 [general]
 live_config_reload = true
+
+# Yev Design System v0.2 — mirrors nvim/colors/yev.lua (dark).
+# Neutrals stay warm; Yev Signal only marks the current search match.
+[colors.primary]
+background = "#11100E"
+foreground = "#E6E1D6"
+bright_foreground = "#F2EFE8"
+dim_foreground = "#A49E94"
+
+[colors.cursor]
+text = "#11100E"
+cursor = "#E6E1D6"
+
+[colors.vi_mode_cursor]
+text = "#11100E"
+cursor = "#F2EFE8"
+
+[colors.selection]
+text = "CellForeground"
+background = "#332E27"
+
+[colors.search.matches]
+foreground = "#F2EFE8"
+background = "#24221E"
+
+[colors.search.focused_match]
+foreground = "#11100E"
+background = "#FF4D1F"
+
+[colors.footer_bar]
+foreground = "#A49E94"
+background = "#1A1916"
+
+[colors.hints.start]
+foreground = "#11100E"
+background = "#C8BDAA"
+
+[colors.hints.end]
+foreground = "#11100E"
+background = "#A49E94"
+
+[colors.normal]
+black = "#11100E"
+red = "#F0717F"
+green = "#B4C29A"
+yellow = "#E2B04F"
+blue = "#86B1D9"
+magenta = "#C8BDAA"
+cyan = "#A9BCCB"
+white = "#E6E1D6"
+
+[colors.bright]
+black = "#6B655C"
+red = "#F0717F"
+green = "#B4C29A"
+yellow = "#DDB77E"
+blue = "#86B1D9"
+magenta = "#C8BDAA"
+cyan = "#A9BCCB"
+white = "#F2EFE8"

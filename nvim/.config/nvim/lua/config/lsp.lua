@@ -1,21 +1,30 @@
--- Diagnostics
+-- Diagnostics: shape + letter, never color alone
+local severity = vim.diagnostic.severity
+
 vim.diagnostic.config({
     underline = true,
-    signs = true,
     severity_sort = true,
     update_in_insert = false,
+    signs = {
+        text = {
+            [severity.ERROR] = "■",
+            [severity.WARN] = "▲",
+            [severity.INFO] = "●",
+            [severity.HINT] = "·",
+        },
+    },
     virtual_text = {
         spacing = 2,
-        source = "if_many"
+        source = "if_many",
+        prefix = "",
     },
     float = {
-        border = "rounded",
-        source = true
-    }
+        border = "single",
+        source = true,
+    },
 })
 
-
--- Configuration for conected LSP server
+-- Configuration for connected LSP servers
 local lsp_group = vim.api.nvim_create_augroup("user-lsp", { clear = true })
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -24,11 +33,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(event)
         local client = assert(vim.lsp.get_client_by_id(event.data.client_id))
 
-        local function map(keys, action, description)
-            vim.keymap.set("n", keys, action, {
+        local function map(keys, action, description, mode)
+            vim.keymap.set(mode or "n", keys, action, {
                 buffer = event.buf,
                 silent = true,
-                desc = "LSP: " .. description
+                desc = "LSP: " .. description,
             })
         end
 
@@ -37,66 +46,74 @@ vim.api.nvim_create_autocmd("LspAttach", {
         map("K", vim.lsp.buf.hover, "Show documentation")
 
         map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
-        map("<leader>ca", vim.lsp.buf.code_action, "Code actions")
+        map("<leader>ca", vim.lsp.buf.code_action, "Code actions", { "n", "v" })
 
-        map("<leader>e", function() 
-            vim.diagnostics.open_float({ border = "rounded" })
+        map("<leader>e", function()
+            vim.diagnostic.open_float()
         end, "Show diagnostic")
 
-        map("<leader>f", function() 
-            vim.lsp.buf.format({
-                bufnr = event.buf,
-                async = false,
-                timeout_ms = 2000
-            })
-        end, "Format archive")
-        
+        if client:supports_method("textDocument/inlayHint") then
+            map("<leader>ch", function()
+                local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf })
+                vim.lsp.inlay_hint.enable(not enabled, { bufnr = event.buf })
+            end, "Toggle inlay hints")
+        end
+
         -- Native nvim autocomplete
         if client:supports_method("textDocument/completion") then
-            vim.lsp.completion.enable(
-                true,
-                client.id,
-                event.buf,
-                {
-                    autotrigger = true
-                }
-            )
+            vim.lsp.completion.enable(true, client.id, event.buf, {
+                autotrigger = true,
+            })
+
+            map("<C-Space>", vim.lsp.completion.get, "Trigger completion", "i")
         end
+    end,
+})
 
-        -- Formatting on save
-        if client:supports_method("textDocument/formatting") then
-            local format_group = vim.api.nvim_create_augroup(
-                "user-lsp-format" .. event.buf,
-                { clear = true }
-            )
+-- Base configs come from nvim-lspconfig; files in ./lsp/ extend them.
+-- Each server only starts when its binary exists, globally or in the
+-- project's node_modules/.bin, so missing tools never raise errors.
+local servers = {
+    -- frontend
+    ts_ls = "typescript-language-server",
+    html = "vscode-html-language-server",
+    cssls = "vscode-css-language-server",
+    jsonls = "vscode-json-language-server",
+    eslint = "vscode-eslint-language-server",
+    tailwindcss = "tailwindcss-language-server",
+    emmet_language_server = "emmet-language-server",
+    biome = "biome",
+    -- systems
+    clangd = "clangd",
+    rust_analyzer = vim.fs.joinpath(vim.env.HOME, ".cargo", "bin", "rust-analyzer"),
+    lua_ls = "lua-language-server",
+}
 
-            vim.api.nvim_create_autocmd("BufWritePre", {
-                group = fromat_group,
-                buffer = event.buf,
+local function installed(binary, root)
+    return vim.fn.executable(binary) == 1
+        or (root and vim.fn.executable(vim.fs.joinpath(root, "node_modules", ".bin", binary)) == 1)
+end
 
-                callback = function(args) 
-                    vim.lsp.buf.format({
-                        bufnr = args.buf,
-                        id = client.id,
-                        async = false,
-                        timeout_ms = 2000
-                    })
+for name, binary in pairs(servers) do
+    local config = vim.lsp.config[name] or {}
+    local root_dir = config.root_dir
+    local root_markers = config.root_markers or { ".git" }
+
+    vim.lsp.config(name, {
+        root_dir = function(buffer, on_dir)
+            local function start(root)
+                if installed(binary, root) then
+                    on_dir(root)
                 end
-            })  
-        end
-    end
-})
+            end
 
+            if type(root_dir) == "function" then
+                root_dir(buffer, start)
+            else
+                start(vim.fs.root(buffer, root_markers))
+            end
+        end,
+    })
+end
 
--- Activate servers
-vim.lsp.enable({ 
-    "clangd", 
-    "rust_analyzer",
-    "ts_ls",
-    "html",
-    "cssls",
-    "jsonls",
-    "lua_ls"
-})
-
-
+vim.lsp.enable(vim.tbl_keys(servers))

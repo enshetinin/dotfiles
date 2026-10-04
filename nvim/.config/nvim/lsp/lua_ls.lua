@@ -15,7 +15,11 @@ return {
                 callSnippet = "Replace"
             },
             workspace = {
-                checkThirdParty = false
+                checkThirdParty = false,
+                -- Knows the `vim` API when editing this config
+                library = {
+                    vim.env.VIMRUNTIME
+                }
             },
             telemetry = {
                 enable = false

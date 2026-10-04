@@ -10,6 +10,23 @@ return {
             completions = {
                 lsp = { enabled = true },
             },
+            -- Typographic headings: no colored bands, no icons
+            heading = {
+                sign = false,
+                icons = {},
+                width = "block",
+                backgrounds = {},
+            },
+            code = {
+                sign = false,
+                border = "thin",
+                width = "block",
+                left_pad = 2,
+                right_pad = 2,
+            },
+            bullet = {
+                icons = { "–", "·", "–", "·" },
+            },
         },
         keys = {
             {
@@ -51,7 +68,7 @@ return {
                 auto_load = true,
                 close_on_bdelete = true,
                 syntax = true,
-                theme = "light",
+                theme = vim.o.background,
                 update_on_change = true,
 
                 -- "browser" abre el navegador predeterminado.

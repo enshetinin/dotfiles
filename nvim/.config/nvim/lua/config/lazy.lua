@@ -38,6 +38,10 @@ require("lazy").setup({
         },
     },
 
+    install = {
+        colorscheme = { "yev" },
+    },
+
     checker = {
         enabled = false,
     },
@@ -47,7 +51,7 @@ require("lazy").setup({
     },
 
     ui = {
-        border = "rounded",
+        border = "single",
     },
 })
 

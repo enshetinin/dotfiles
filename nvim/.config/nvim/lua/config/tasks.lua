@@ -9,10 +9,12 @@ local frontend_filetypes = {
     javascriptreact = true,
     typescript = true,
     typescriptreact = true,
+    vue = true,
+    svelte = true,
+    astro = true,
     json = true,
-    jsonc = true
+    jsonc = true,
 }
-
 
 -- Utils
 local function notify(message, level)
@@ -36,26 +38,32 @@ local function find_root(markers)
         return vim.uv.cwd()
     end
 
-    return vim.fs.root(file, markers)
-        or vim.fs.dirname(file)
+    return vim.fs.root(file, markers) or vim.fs.dirname(file)
 end
 
-local function shellescape(value)
-    return vim.fn.shellescape(value)
+local function has_file(root, names)
+    for _, name in ipairs(names) do
+        if vim.uv.fs_stat(vim.fs.joinpath(root, name)) then
+            return true
+        end
+    end
+
+    return false
 end
 
--- Terminal 
+-- Terminal
 local function run_in_terminal(command, cwd)
-    vim.cmd("write")
+    if vim.bo.modified and vim.bo.buftype == "" then
+        vim.cmd("silent! write")
+    end
 
     vim.cmd("botright 15split")
     vim.cmd("terminal")
 
-    local buffer = vim.api.nvim_get_current_buf()
-    local job = vim.bo[buffer].channel
+    local job = vim.bo.channel
 
     vim.fn.chansend(job, {
-        "cd " .. shellescape(cwd),
+        "cd " .. vim.fn.shellescape(cwd),
         command,
         "",
     })
@@ -75,7 +83,7 @@ local function project_type()
         return "c"
     end
 
-    if frontend_fyletypes[filetype] then
+    if frontend_filetypes[filetype] then
         return "frontend"
     end
 
@@ -83,40 +91,93 @@ local function project_type()
 end
 
 local function rust_root()
-    return find_root({
-        "Cargo.toml",
-        ".git",
-    })
+    return find_root({ "Cargo.toml", ".git" })
 end
 
 local function c_root()
-    return find_root({
-        "Makefile",
-        "makefile",
-        "CMakeLists.txt",
-        ".git",
-    })
+    return find_root({ "Makefile", "makefile", "CMakeLists.txt", ".git" })
 end
 
 local function frontend_root()
-    return find_root({
-        "pnpm-lock.yaml",
-        "package-lock.json",
-        "yarn.lock",
-        "bun.lock",
-        "package.json",
-        ".git"
-    })
+    return find_root({ "package.json", ".git" })
 end
 
-local function has_file(root, names)
-    for _, name in ipairs(names) do
-        if vim.uv.fs_stat(vim.fs.joinpath(root, name)) then
-            return true
+local function package_manager(root)
+    if has_file(root, { "pnpm-lock.yaml" }) then
+        return "pnpm"
+    end
+
+    if has_file(root, { "bun.lock", "bun.lockb" }) then
+        return "bun"
+    end
+
+    if has_file(root, { "yarn.lock" }) then
+        return "yarn"
+    end
+
+    return "npm"
+end
+
+local function package_scripts(root)
+    local path = vim.fs.joinpath(root, "package.json")
+    local ok, lines = pcall(vim.fn.readfile, path)
+
+    if not ok then
+        return {}
+    end
+
+    local decoded_ok, package = pcall(vim.json.decode, table.concat(lines, "\n"))
+
+    if not decoded_ok or type(package) ~= "table" then
+        return {}
+    end
+
+    return package.scripts or {}
+end
+
+-- Runs the first script that exists in package.json
+local function run_script(candidates)
+    local root = frontend_root()
+    local scripts = package_scripts(root)
+
+    for _, script in ipairs(candidates) do
+        if scripts[script] then
+            run_in_terminal(package_manager(root) .. " run " .. script, root)
+            return
         end
     end
 
-    return false
+    notify(
+        "package.json no tiene ninguno de estos scripts: " .. table.concat(candidates, ", "),
+        vim.log.levels.WARN
+    )
+end
+
+local function c_compile_command(file, and_run)
+    local is_cpp = vim.bo.filetype == "cpp"
+    local output = vim.fn.fnamemodify(file, ":r")
+
+    local command = {
+        is_cpp and "clang++" or "clang",
+        is_cpp and "-std=c++20" or "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-g",
+        vim.fn.shellescape(file),
+        "-o",
+        vim.fn.shellescape(output),
+    }
+
+    if and_run then
+        vim.list_extend(command, { "&&", vim.fn.shellescape(output) })
+    end
+
+    return table.concat(command, " ")
+end
+
+local function unsupported(action)
+    notify(action .. " is only configured for frontend, C, C++ and Rust", vim.log.levels.WARN)
 end
 
 -- Build
@@ -124,16 +185,10 @@ function M.build()
     local kind = project_type()
 
     if kind == "frontend" then
-        run_in_terminal("npm build", frontend_root())
-        return
-    end
-
-    if kind == "rust" then
+        run_script({ "build" })
+    elseif kind == "rust" then
         run_in_terminal("cargo build", rust_root())
-        return
-    end
-
-    if kind == "c" then
+    elseif kind == "c" then
         local root = c_root()
 
         if has_file(root, { "Makefile", "makefile" }) then
@@ -148,36 +203,10 @@ function M.build()
             return
         end
 
-        local output = vim.fn.fnamemodify(file, ":r")
-
-        local compiler = vim.bo.filetype == "cpp"
-                and "clang++"
-            or "clang"
-
-        local standard = vim.bo.filetype == "cpp"
-                and "-std=c++20"
-            or "-std=c17"
-
-        local command = table.concat({
-            compiler,
-            standard,
-            "-Wall",
-            "-Wextra",
-            "-Wpedantic",
-            "-g",
-            shellescape(file),
-            "-o",
-            shellescape(output),
-        }, " ")
-
-        run_in_terminal(command, root)
-        return
+        run_in_terminal(c_compile_command(file, false), root)
+    else
+        unsupported("Build")
     end
-
-    notify(
-        "Build coomand is only configured for C, C++ and Rust",
-        vim.log.levels.WARN
-    )
 end
 
 -- Run
@@ -185,23 +214,14 @@ function M.run()
     local kind = project_type()
 
     if kind == "frontend" then
-        run_in_terminal("npm run dev", frontend_root())
-        return
-    end
-
-    if kind == "rust" then
+        run_script({ "dev", "start", "preview" })
+    elseif kind == "rust" then
         run_in_terminal("cargo run", rust_root())
-        return
-    end
-
-    if kind == "c" then
+    elseif kind == "c" then
         local root = c_root()
 
         if has_file(root, { "Makefile", "makefile" }) then
-            notify(
-                "For C projects with Makefile use: :Task make run",
-                vim.log.levels.INFO
-            )
+            notify("For C projects with Makefile use: :Task make run")
             return
         end
 
@@ -212,38 +232,10 @@ function M.run()
             return
         end
 
-        local output = vim.fn.fnamemodify(file, ":r")
-
-        local compiler = vim.bo.filetype == "cpp"
-                and "clang++"
-            or "clang"
-
-        local standard = vim.bo.filetype == "cpp"
-                and "-std=c++20"
-            or "-std=c17"
-
-        local command = table.concat({
-            compiler,
-            standard,
-            "-Wall",
-            "-Wextra",
-            "-Wpedantic",
-            "-g",
-            shellescape(file),
-            "-o",
-            shellescape(output),
-            "&&",
-            shellescape(output),
-        }, " ")
-
-        run_in_terminal(command, root)
-        return
+        run_in_terminal(c_compile_command(file, true), root)
+    else
+        unsupported("Run")
     end
-
-    notify(
-        "Run command is only configured for C, C++ and Rust",
-        vim.log.levels.WARN
-    )
 end
 
 -- Test
@@ -251,16 +243,10 @@ function M.test()
     local kind = project_type()
 
     if kind == "frontend" then
-        run_in_terminal("npm run test", frontend_root())
-        return
-    end
-
-    if kind == "rust" then
+        run_script({ "test", "test:unit" })
+    elseif kind == "rust" then
         run_in_terminal("cargo test", rust_root())
-        return
-    end
-
-    if kind == "c" then
+    elseif kind == "c" then
         local root = c_root()
 
         if has_file(root, { "Makefile", "makefile" }) then
@@ -268,23 +254,29 @@ function M.test()
             return
         end
 
-        notify(
-            "C project needs target 'test' in the Makefile",
-            vim.log.levels.WARN
-        )
-        return
+        notify("C project needs target 'test' in the Makefile", vim.log.levels.WARN)
+    else
+        unsupported("Test")
     end
+end
 
-    notify(
-        "The test command is only configured for C, C++ and Rust",
-        vim.log.levels.WARN
-    )
+-- Lint
+function M.lint()
+    local kind = project_type()
+
+    if kind == "frontend" then
+        run_script({ "lint", "check", "typecheck" })
+    elseif kind == "rust" then
+        run_in_terminal("cargo clippy", rust_root())
+    else
+        unsupported("Lint")
+    end
 end
 
 -- Arbitrary command
 function M.task(command)
     if not command or command == "" then
-        notify("You need to initalize a command", vim.log.levels.WARN)
+        notify("You need to provide a command", vim.log.levels.WARN)
         return
     end
 

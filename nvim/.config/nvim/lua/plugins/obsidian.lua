@@ -10,20 +10,24 @@ return {
     opts = {
         workspaces = {
             {
-                name = "notes",
-                path = "~/Desktop/personal/personal_brain/notes"
+                name = "yev",
+                path = "~/Desktop/Obsidian/Yev"
             }
         },
         completion = {
             nvim_cmp = true,
             min_chars = 2
         },
+        daily_notes = {
+            folder = "notes/dailies",
+            date_format = "%Y-%m-%d",
+            default_tags = { "daily-notes" },
+            template = nil
+        },
+        disable_frontmatter = false,
+        ui = {
+            -- render-markdown.nvim already handles rendering
+            enable = false,
+        },
     },
-    dayly_notes = {
-        folder = "notes/dailies",
-        date_format = "%Y-%m-%d",
-        default_tags = { "daily-notes" },
-        template = nil
-    },
-    disable_frontmatter = false,
 }

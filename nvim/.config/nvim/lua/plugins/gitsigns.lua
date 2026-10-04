@@ -9,6 +9,15 @@ return {
         -- show new files that are not added to git
         attach_to_untracked = true,
 
+        signs = {
+            add = { text = "▎" },
+            change = { text = "╎" },
+            delete = { text = "▁" },
+            topdelete = { text = "▔" },
+            changedelete = { text = "╎" },
+            untracked = { text = "┆" },
+        },
+
         -- don't show blame permanenty
         current_line_blame = false,
 
@@ -17,22 +26,22 @@ return {
         word_diff = false,
 
         preview_config = {
-            border = "rounded"
+            border = "single"
         },
 
         on_attach = function(buffer)
             local gitsigns = require("gitsigns")
 
             local function map(mode, keys, action, description)
-                vim.keymap.set(mode,keys, action, {
+                vim.keymap.set(mode, keys, action, {
                     buffer = buffer,
                     silent = true,
-                    desc = "Gir " .. description
+                    desc = "Git: " .. description
                 })
             end
 
             -- Navegation between changes
-            map("n", "]h", function() 
+            map("n", "]h", function()
                 if vim.wo.diff then
                     vim.cmd.normal({ "]c", bang = true })
                 else
@@ -40,7 +49,7 @@ return {
                 end
             end, "Next change")
 
-            map("n", "[h", function() 
+            map("n", "[h", function()
                 if vim.wo.diff then
                     vim.cmd.normal({ "[c", bang = true })
                 else
@@ -74,7 +83,7 @@ return {
                 "n",
                 "<leader>gr",
                 "<cmd>Gitsigns reset_hunk<CR>",
-                "Descar changes"
+                "Discard change"
             )
 
 
@@ -113,7 +122,7 @@ return {
                     vim.fn.line("."),
                     vim.fn.line("v"),
                 })
-            end, "Descart selection")
+            end, "Discard selection")
 
         end
     }
