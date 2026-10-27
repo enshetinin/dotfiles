@@ -5,7 +5,7 @@
 // mode (pane, tab, resize, move, scroll, session) is active: it marks "you
 // are not in normal mode" and disappears when you leave it.
 //
-// Ergonomics (macOS, right-handed): Alacritty maps only the LEFT Option key
+// Ergonomics (macOS, right-handed): Ghostty maps only the LEFT Option key
 // to Alt, so every binding below is "left Option + key". Frequent actions
 // sit under the left hand (1-5, q-t, a-g, z-v) so the right hand can stay
 // on the trackpad. hjkl / arrows are for when both hands are on the keys.

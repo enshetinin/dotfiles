@@ -1,4 +1,4 @@
-# Yev Neon — mirrors nvim/colors/yev.lua and alacritty/colors/yev.toml.
+# Yev Neon — mirrors nvim/colors/yev.lua.
 
 background = #0F0E14
 foreground = #E6E2F2

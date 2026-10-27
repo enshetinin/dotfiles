@@ -1,5 +1,5 @@
 # Ghostty — Yev Neon
-# Same look as alacritty.toml. Colors live in themes/yev.
+# Colors live in themes/yev.
 # Reload with cmd+shift+, — list every option with: ghostty +show-config --default --docs
 
 theme = yev

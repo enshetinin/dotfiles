@@ -1,7 +1,7 @@
 -- Yev Neon — personal colorscheme (Yev Design System v1.0).
 --
 -- Ink background with a violet cast, Yev Signal (#FF4D1F) as the anchor
--- accent and a set of neon hues around it. Mirrors alacritty/colors/yev.toml.
+-- accent and a set of neon hues around it. Mirrors ghostty/themes/yev.
 --
 -- vim.g.yev_transparent = true  -> let the terminal (and its blur) show through
 -- vim.o.background = "light"    -> light variant
@@ -501,7 +501,7 @@ for name, spec in pairs(groups) do
     vim.api.nvim_set_hl(0, name, spec)
 end
 
--- Terminal palette (:terminal, lazygit, Claude). Same as Alacritty.
+-- Terminal palette (:terminal, lazygit, Claude). Same as Ghostty.
 -- stylua: ignore
 local term = dark and {
     "#221F2E", p.red, p.green, p.yellow, p.blue, p.purple, p.cyan, p.fg,

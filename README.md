@@ -13,7 +13,7 @@ So the minimal here is a minimal configuration for:
 
 - Neovim
 - tmux
-- Alacritty
+- Ghostty
 - Zellij
 - Fastfetch
 - Zsh
@@ -24,7 +24,7 @@ Everything is managed by GNU Stow
 flowchart TD
     A[dotfiles/] --> B[nvim/]
     A --> C[tmux/]
-    A --> D[alacritty/]
+    A --> D[ghostty/]
     A --> E[zellij/]
 
     B --> B1[".config/"]
@@ -34,8 +34,8 @@ flowchart TD
     C1 --> C2[tmux/]
 
     D --> D1[".config/"]
-    D1 --> D2[alacritty/]
-    D2 --> D3[alacritty.toml]
+    D1 --> D2[ghostty/]
+    D2 --> D3[config]
 
     E --> E1["./config/"]
     E1 --> E2[zellij/]
@@ -50,7 +50,7 @@ Each directory is independent Stow package
 
 ```bash
 brew install git stow neovim tmux lazygit ripgrep llvm
-brew install --cask alacritty
+brew install --cask ghostty
 ```
 
 Install Rust with **rustup**, then install the required components:
@@ -75,5 +75,5 @@ cd "$HOME/dotfiles"
 
 ```bash
 stow --verbose --target="$HOME" \
-    nvim tmux alacritty zsh
+    nvim tmux ghostty zsh
 ```

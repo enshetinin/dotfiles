@@ -1,7 +1,7 @@
 # Neovim — Yev Neon
 
 Configuración personal para **frontend**, **Rust/C** y trabajo con **agentes IA**.
-Neovim 0.12 + lazy.nvim. Tema propio **Yev Neon**, compartido con Alacritty y Zellij.
+Neovim 0.12 + lazy.nvim. Tema propio **Yev Neon**, compartido con Ghostty y Zellij.
 
 > Si vuelves aquí tras mucho tiempo: abre nvim, pulsa `<Space>` y espera.
 > which-key te enseña todos los atajos agrupados.
@@ -188,7 +188,7 @@ lockfile), Rust y C/C++. `:Task <comando>` ejecuta cualquier cosa en la raíz de
 
 ## Tema Yev Neon
 
-`colors/yev.lua`. Los mismos colores están en `alacritty/colors/yev.toml` y en el tema de Zellij.
+`colors/yev.lua`. Los mismos colores están en `ghostty/themes/yev` y en el tema de Zellij.
 
 | Token | Hex | Uso |
 | --- | --- | --- |
@@ -203,5 +203,5 @@ lockfile), Rust y C/C++. `:Task <comando>` ejecuta cualquier cosa en la raíz de
 | Orange | `#FF8E4D` | números, constantes, parámetros |
 | Red | `#FF5577` | errores |
 
-`vim.g.yev_transparent = true` (en `options.lua`) deja ver el cristal con blur de Alacritty.
+`vim.g.yev_transparent = true` (en `options.lua`) deja ver el cristal con blur de Ghostty.
 `require("yev.palette")` devuelve la paleta activa para usarla en otros sitios.
