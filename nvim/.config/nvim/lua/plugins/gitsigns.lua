@@ -26,7 +26,7 @@ return {
         word_diff = false,
 
         preview_config = {
-            border = "single"
+            border = "rounded"
         },
 
         on_attach = function(buffer)

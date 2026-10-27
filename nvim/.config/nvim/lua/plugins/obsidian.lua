@@ -1,33 +1,24 @@
+-- Community fork (the original epwalsh/obsidian.nvim is archived). Uses blink.cmp.
 return {
-    "epwalsh/obsidian.nvim",
-    version = "*", -- recommended, the latest stabled
-    lazy = true,
+    "obsidian-nvim/obsidian.nvim",
+    version = "*",
     ft = "markdown",
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        "hrsh7th/nvim-cmp",
-    },
     opts = {
+        legacy_commands = false,
         workspaces = {
-            {
-                name = "yev",
-                path = "~/Desktop/Obsidian/Yev"
-            }
+            { name = "yev", path = "~/Desktop/Obsidian/Yev" },
         },
         completion = {
-            nvim_cmp = true,
-            min_chars = 2
+            blink = true,
+            nvim_cmp = false,
+            min_chars = 2,
         },
         daily_notes = {
             folder = "notes/dailies",
             date_format = "%Y-%m-%d",
             default_tags = { "daily-notes" },
-            template = nil
         },
-        disable_frontmatter = false,
-        ui = {
-            -- render-markdown.nvim already handles rendering
-            enable = false,
-        },
+        -- render-markdown.nvim already handles rendering
+        ui = { enable = false },
     },
 }

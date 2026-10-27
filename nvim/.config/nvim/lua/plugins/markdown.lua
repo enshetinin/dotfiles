@@ -3,29 +3,29 @@ return {
         "MeanderingProgrammer/render-markdown.nvim",
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
-            "nvim-tree/nvim-web-devicons",
+            "nvim-mini/mini.icons",
         },
         ft = { "markdown" },
         opts = {
             completions = {
                 lsp = { enabled = true },
             },
-            -- Typographic headings: no colored bands, no icons
+            -- Rainbow headings with a tinted band (colors in colors/yev.lua)
             heading = {
                 sign = false,
-                icons = {},
-                width = "block",
-                backgrounds = {},
+                icons = { "󰉫 ", "󰉬 ", "󰉭 ", "󰉮 ", "󰉯 ", "󰉰 " },
+                width = "full",
+                position = "inline",
             },
             code = {
                 sign = false,
-                border = "thin",
+                border = "thick",
                 width = "block",
                 left_pad = 2,
                 right_pad = 2,
             },
             bullet = {
-                icons = { "–", "·", "–", "·" },
+                icons = { "●", "○", "◆", "◇" },
             },
         },
         keys = {

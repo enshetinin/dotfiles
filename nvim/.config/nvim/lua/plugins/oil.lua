@@ -3,7 +3,8 @@ return {
 	lazy = false,
 	opts = {
 		default_file_explorer = true,
-		columns = {},
+		columns = { "icon" },
+		float = { border = "rounded", padding = 2 },
 		view_options = {
 			show_hidden = true
 		},
@@ -14,7 +15,7 @@ return {
 	keys = {
 		{
 			"-",
-			"<cmd>Oil<CR>",
+			"<cmd>Oil --float<CR>",
 			desc = "Open Oil"
 		}
 	}

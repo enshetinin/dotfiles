@@ -1,0 +1,74 @@
+# Yev Neon — mirrors nvim/colors/yev.lua (dark).
+# Ink with a violet cast, Yev Signal (#FF4D1F) as the cursor and current match.
+
+[colors.primary]
+background = "#0F0E14"
+foreground = "#E6E2F2"
+bright_foreground = "#FBF8FF"
+dim_foreground = "#A39CBF"
+
+[colors.cursor]
+text = "#0F0E14"
+cursor = "#FF4D1F"
+
+[colors.vi_mode_cursor]
+text = "#0F0E14"
+cursor = "#B392FF"
+
+[colors.selection]
+text = "CellForeground"
+background = "#352A4D"
+
+[colors.search.matches]
+foreground = "#0F0E14"
+background = "#B392FF"
+
+[colors.search.focused_match]
+foreground = "#0F0E14"
+background = "#FF4D1F"
+
+[colors.footer_bar]
+foreground = "#0F0E14"
+background = "#B392FF"
+
+[colors.hints.start]
+foreground = "#0F0E14"
+background = "#FF4D1F"
+
+[colors.hints.end]
+foreground = "#0F0E14"
+background = "#FFCB6B"
+
+[colors.line_indicator]
+foreground = "None"
+background = "None"
+
+[colors.normal]
+black = "#221F2E"
+red = "#FF5577"
+green = "#7FE3A0"
+yellow = "#FFCB6B"
+blue = "#7AA2FF"
+magenta = "#B392FF"
+cyan = "#6BD4FF"
+white = "#E6E2F2"
+
+[colors.bright]
+black = "#4F4A66"
+red = "#FF7A93"
+green = "#9DF0B8"
+yellow = "#FFD98F"
+blue = "#9BBBFF"
+magenta = "#CDB3FF"
+cyan = "#92E1FF"
+white = "#FBF8FF"
+
+[colors.dim]
+black = "#17151F"
+red = "#B33D55"
+green = "#58A06F"
+yellow = "#B38E4A"
+blue = "#5571B3"
+magenta = "#7D66B3"
+cyan = "#4A94B3"
+white = "#A39CBF"

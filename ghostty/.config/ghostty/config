@@ -1,0 +1,55 @@
+# Ghostty — Yev Neon
+# Same look as alacritty.toml. Colors live in themes/yev.
+# Reload with cmd+shift+, — list every option with: ghostty +show-config --default --docs
+
+theme = yev
+
+# --- Font ---------------------------------------------------------------
+font-family = "JetBrainsMono Nerd Font Mono"
+font-size = 18
+adjust-cell-height = 20%
+font-thicken = false
+
+# --- Window -------------------------------------------------------------
+background-opacity = 0.82
+background-blur = true
+macos-titlebar-style = tabs
+macos-option-as-alt = left
+window-padding-x = 18
+window-padding-y = 14
+window-padding-balance = true
+window-width = 120
+window-height = 35
+window-position-x = 400
+window-position-y = 250
+window-save-state = never
+confirm-close-surface = false
+
+# --- Cursor -------------------------------------------------------------
+cursor-style = block
+cursor-style-blink = true
+shell-integration-features = no-cursor
+
+# --- Behaviour ----------------------------------------------------------
+scrollback-limit = 50000000
+copy-on-select = clipboard
+mouse-hide-while-typing = true
+unfocused-split-opacity = 0.85
+
+# --- Quick terminal (drop-down) -----------------------------------------
+# Global hotkey needs Accessibility permission for Ghostty in System Settings.
+quick-terminal-position = top
+quick-terminal-animation-duration = 0.15
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+
+# --- Keys ---------------------------------------------------------------
+keybind = cmd+enter=toggle_fullscreen
+# Splits, vim-style navigation
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = cmd+alt+h=goto_split:left
+keybind = cmd+alt+j=goto_split:bottom
+keybind = cmd+alt+k=goto_split:top
+keybind = cmd+alt+l=goto_split:right
+keybind = cmd+shift+enter=toggle_split_zoom
+keybind = cmd+shift+e=equalize_splits

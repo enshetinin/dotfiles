@@ -1,4 +1,4 @@
--- Diagnostics: shape + letter, never color alone
+-- Diagnostics: icon + color, sorted by severity
 local severity = vim.diagnostic.severity
 
 vim.diagnostic.config({
@@ -7,29 +7,36 @@ vim.diagnostic.config({
     update_in_insert = false,
     signs = {
         text = {
-            [severity.ERROR] = "■",
-            [severity.WARN] = "▲",
-            [severity.INFO] = "●",
-            [severity.HINT] = "·",
+            [severity.ERROR] = "\u{f057}",
+            [severity.WARN] = "\u{f071}",
+            [severity.INFO] = "\u{f05a}",
+            [severity.HINT] = "󰌵",
+        },
+        numhl = {
+            [severity.ERROR] = "DiagnosticError",
+            [severity.WARN] = "DiagnosticWarn",
         },
     },
     virtual_text = {
         spacing = 2,
         source = "if_many",
-        prefix = "",
+        prefix = "●",
     },
     float = {
-        border = "single",
+        border = "rounded",
         source = true,
+        header = "",
     },
 })
 
--- Configuration for connected LSP servers
-local lsp_group = vim.api.nvim_create_augroup("user-lsp", { clear = true })
+-- Completion capabilities from blink.cmp for every server
+local ok, blink = pcall(require, "blink.cmp")
+if ok then
+    vim.lsp.config("*", { capabilities = blink.get_lsp_capabilities() })
+end
 
 vim.api.nvim_create_autocmd("LspAttach", {
-    group = lsp_group,
-
+    group = vim.api.nvim_create_augroup("user-lsp", { clear = true }),
     callback = function(event)
         local client = assert(vim.lsp.get_client_by_id(event.data.client_id))
 
@@ -41,31 +48,29 @@ vim.api.nvim_create_autocmd("LspAttach", {
             })
         end
 
-        map("gd", vim.lsp.buf.definition, "Go to definition")
-        map("gD", vim.lsp.buf.declaration, "Go to declaration")
-        map("K", vim.lsp.buf.hover, "Show documentation")
+        local picker = function(source)
+            return function()
+                Snacks.picker[source]()
+            end
+        end
 
+        map("gd", picker("lsp_definitions"), "Go to definition")
+        map("gD", picker("lsp_declarations"), "Go to declaration")
+        map("grr", picker("lsp_references"), "References")
+        map("gri", picker("lsp_implementations"), "Implementations")
+        map("gy", picker("lsp_type_definitions"), "Type definition")
+        map("K", vim.lsp.buf.hover, "Show documentation")
         map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
         map("<leader>ca", vim.lsp.buf.code_action, "Code actions", { "n", "v" })
-
-        map("<leader>e", function()
-            vim.diagnostic.open_float()
-        end, "Show diagnostic")
+        map("<leader>cd", vim.diagnostic.open_float, "Line diagnostic")
+        map("<leader>fs", picker("lsp_symbols"), "Document symbols")
+        map("<leader>fS", picker("lsp_workspace_symbols"), "Workspace symbols")
 
         if client:supports_method("textDocument/inlayHint") then
             map("<leader>ch", function()
                 local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf })
                 vim.lsp.inlay_hint.enable(not enabled, { bufnr = event.buf })
             end, "Toggle inlay hints")
-        end
-
-        -- Native nvim autocomplete
-        if client:supports_method("textDocument/completion") then
-            vim.lsp.completion.enable(true, client.id, event.buf, {
-                autotrigger = true,
-            })
-
-            map("<C-Space>", vim.lsp.completion.get, "Trigger completion", "i")
         end
     end,
 })
@@ -83,6 +88,7 @@ local servers = {
     tailwindcss = "tailwindcss-language-server",
     emmet_language_server = "emmet-language-server",
     biome = "biome",
+
     -- systems
     clangd = "clangd",
     rust_analyzer = vim.fs.joinpath(vim.env.HOME, ".cargo", "bin", "rust-analyzer"),
