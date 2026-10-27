@@ -16,6 +16,7 @@ So the minimal here is a minimal configuration for:
 - Alacritty
 - Zellij
 - Fastfetch
+- Zsh
 
 Everything is managed by GNU Stow
 
@@ -74,5 +75,5 @@ cd "$HOME/dotfiles"
 
 ```bash
 stow --verbose --target="$HOME" \
-    nvim tmux alacritty
+    nvim tmux alacritty zsh
 ```
