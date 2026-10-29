@@ -1,7 +1,7 @@
-# Neovim — Yev Neon
+# Neovim — Yev (JetBrains)
 
 Configuración personal para **frontend**, **Rust/C** y trabajo con **agentes IA**.
-Neovim 0.12 + lazy.nvim. Tema propio **Yev Neon**, compartido con Ghostty y Zellij.
+Neovim 0.12 + lazy.nvim. Tema **JetBrains** (Dark / IntelliJ Light), igual que Ghostty.
 
 > Si vuelves aquí tras mucho tiempo: abre nvim, pulsa `<Space>` y espera.
 > which-key te enseña todos los atajos agrupados.
@@ -27,20 +27,22 @@ Neovim 0.12 + lazy.nvim. Tema propio **Yev Neon**, compartido con Ghostty y Zell
 | Agentes | `claudecode.nvim` |
 | Debug | `nvim-dap` |
 
-La statusline es propia (`lua/config/statusline.lua`, sin plugin): píldora del modo que cambia de
-color, archivo con icono, rama y cambios de git; a la derecha diagnósticos, `claude`, LSP y posición.
+La statusline es propia (`lua/config/statusline.lua`, sin plugin), plana como la del IDE: modo de
+ancho fijo, archivo con icono, rama y cambios de git; a la derecha diagnósticos, `claude`, LSP y posición.
+Si no cabe, va quitando lo menos útil (detalles, LSP, conteos, carpetas) en vez de cortar el modo.
 
 ## Estructura
 
 ```text
 nvim/
 ├── init.lua                 orden: options → autocmds → statusline → keymaps → lazy → lsp
-├── colors/yev.lua           tema Yev Neon (oscuro + claro)
+├── colors/jetbrains.lua     tema activo (estilo JetBrains New UI)
+├── colors/yev.lua           tema antiguo (Kanagawa), ya no se carga
 ├── lsp/                     overrides de servidores (se fusionan con nvim-lspconfig)
 ├── lua/config/
 │   ├── options.lua          opciones + carga el tema
 │   ├── autocmds.lua         recarga de archivos, sangría frontend, yank, terminal
-│   ├── statusline.lua       statusline de píldoras
+│   ├── statusline.lua       statusline plana estilo IDE
 │   ├── keymaps.lua          atajos generales, agentes, tareas
 │   ├── agents.lua           copiar @referencias y diagnósticos
 │   ├── tasks.lua            :Build :Run :Test :Lint :Task
@@ -49,7 +51,7 @@ nvim/
 └── lua/plugins/
     ├── ui.lua               snacks, noice, which-key, mini.icons, smear-cursor
     ├── completion.lua       blink.cmp
-    ├── editor.lua           mini.pairs, mini.hipatterns, mini.surround
+    ├── editor.lua           mini.pairs, mini.hipatterns, mini.surround, mini.ai, flash
     ├── ai.lua               claudecode.nvim
     ├── format.lua           conform.nvim
     ├── lsp.lua              nvim-lspconfig (solo aporta configs)
@@ -99,7 +101,14 @@ Leader = `Space`.
 | `<leader>e` | árbol de archivos |
 | `<leader>z` | modo zen |
 | `J` / `K` (visual) | mover líneas |
-| `sa` / `sd` / `sr` | añadir / borrar / cambiar surround |
+| `gsa` / `gsd` / `gsr` | añadir / borrar / cambiar surround |
+| `s` + 2 letras + etiqueta | saltar a cualquier sitio (flash) |
+| `S` | seleccionar nodo de treesitter (flash) |
+| `vaf` / `cif` / `dia` | función entera / cuerpo / argumento (también `c` clase, `o` bloque, `u` llamada, `t` tag) |
+| `]f` / `[f` | función siguiente / anterior (`]F` final, `]k` clase) |
+| `F5` / `<leader>dc` | debug: iniciar / continuar (lldb-dap; compila antes) |
+| `<leader>db` / `dB` | breakpoint / breakpoint condicional |
+| `<leader>dv` / `dw` | panel de debug / vigilar expresión |
 | `]]` / `[[` | siguiente / anterior referencia de la palabra |
 
 ### Buscar
@@ -186,22 +195,10 @@ lockfile), Rust y C/C++. `:Task <comando>` ejecuta cualquier cosa en la raíz de
 
 ---
 
-## Tema Yev Neon
+## Tema (JetBrains)
 
-`colors/yev.lua`. Los mismos colores están en `ghostty/themes/yev` y en el tema de Zellij.
+`colors/jetbrains.lua` imita los IDEs de JetBrains (New UI): esquema "Dark" en oscuro e "IntelliJ Light" en claro. Como en el IDE, casi todo el código va en el color normal y solo se colorean palabras clave, strings, números, declaraciones, campos y anotaciones. Ghostty usa `themes/jetbrains-dark` / `themes/jetbrains-light`.
 
-| Token | Hex | Uso |
-| --- | --- | --- |
-| Ink | `#0F0E14` | fondo |
-| Signal | `#FF4D1F` | cursor, modo normal, match actual, H1, títulos |
-| Purple | `#B392FF` | keywords, visual, scope de indentación |
-| Pink | `#FF6AC1` | operadores, tags, imports |
-| Blue | `#7AA2FF` | funciones |
-| Cyan | `#6BD4FF` | propiedades, info |
-| Green | `#7FE3A0` | strings, insert, añadidos |
-| Yellow | `#FFCB6B` | tipos, warnings, command |
-| Orange | `#FF8E4D` | números, constantes, parámetros |
-| Red | `#FF5577` | errores |
-
-`vim.g.yev_transparent = true` (en `options.lua`) deja ver el cristal con blur de Ghostty.
-`require("yev.palette")` devuelve la paleta activa para usarla en otros sitios.
+- `<leader>ub` alterna claro/oscuro · `<leader>ut` alterna transparencia.
+- Barra de estado como la del IDE (`lua/config/statusline.lua`): modo, ruta `… › a › b › archivo` (últimas 3 carpetas), git · diagnósticos, LSP, `línea:col`, `LF`, `UTF-8`, indentación. En picker, explorador, Lazy o terminal muestra solo su nombre.
+- Para cambiar colores: edita la paleta `p` al principio de `colors/jetbrains.lua`.

@@ -1,0 +1,31 @@
+# IntelliJ Light (New UI). Mirrors nvim/colors/jetbrains.lua.
+
+background = #FFFFFF
+foreground = #080808
+
+cursor-color = #000000
+cursor-text = #FFFFFF
+
+selection-background = #A6D2FF
+selection-foreground = #000000
+
+split-divider-color = #EBECF0
+
+# normal
+palette = 0=#080808
+palette = 1=#C7222D
+palette = 2=#067D17
+palette = 3=#9E880D
+palette = 4=#0033B3
+palette = 5=#871094
+palette = 6=#00627A
+palette = 7=#8C8C8C
+# bright
+palette = 8=#6C707E
+palette = 9=#E55230
+palette = 10=#208A3C
+palette = 11=#C29200
+palette = 12=#3574F0
+palette = 13=#A626A4
+palette = 14=#0E7C86
+palette = 15=#EBECF0

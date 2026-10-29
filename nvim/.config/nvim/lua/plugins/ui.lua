@@ -1,12 +1,9 @@
 -- Everything you see: dashboard, picker, notifications, cmdline, keymap hints.
 
 local logo = {
-    "██╗   ██╗███████╗██╗   ██╗",
-    "╚██╗ ██╔╝██╔════╝██║   ██║",
-    " ╚████╔╝ █████╗  ██║   ██║",
-    "  ╚██╔╝  ██╔══╝  ╚██╗ ██╔╝",
-    "   ██║   ███████╗ ╚████╔╝ ",
-    "   ╚═╝   ╚══════╝  ╚═══╝  ",
+    "╻ ╻┏━╸╻ ╻",
+    "┗┳┛┣╸ ┃┏┛",
+    " ╹ ┗━╸┗┛ ",
 }
 
 local function today()
@@ -17,18 +14,24 @@ local function today()
     return days[now.wday] .. " " .. now.day .. " de " .. months[now.month]
 end
 
--- One dashboard item per logo line so each line gets its gradient color
 local function header()
-    local sections = {}
-    for index, line in ipairs(logo) do
-        table.insert(sections, { text = { { line, hl = "YevGrad" .. index } }, align = "center" })
+    return {
+        { section = "header", padding = 1 },
+        { text = { { "neovim · " .. today(), hl = "SnacksDashboardFooter" } }, align = "center", padding = 3 },
+    }
+end
+
+-- Recent files as "name  folder" (like the picker), relative to the project
+local function recent_file(item, ctx)
+    local path = vim.fn.fnamemodify(item.file, ":~:.")
+    local name = vim.fn.fnamemodify(path, ":t")
+    local dir = vim.fn.fnamemodify(path, ":h")
+    dir = dir == "." and "" or dir
+    local room = (ctx.width or 60) - vim.fn.strdisplaywidth(name) - 2
+    if vim.fn.strchars(dir) > room then
+        dir = room > 1 and "…" .. vim.fn.strcharpart(dir, vim.fn.strchars(dir) - room + 1) or ""
     end
-    table.insert(sections, {
-        text = { { "neovim · " .. today(), hl = "SnacksDashboardFooter" } },
-        align = "center",
-        padding = 2,
-    })
-    return sections
+    return { { name, hl = "file" }, { "  " }, { dir, hl = "dir" } }
 end
 
 local function pick(source, options)
@@ -62,7 +65,8 @@ return {
             notifier = {
                 enabled = true,
                 timeout = 3000,
-                style = "fancy",
+                -- compact: icon + title in the border, message below (fancy left an empty header row)
+                style = "compact",
                 top_down = false,
             },
             explorer = { replace_netrw = false },
@@ -82,7 +86,9 @@ return {
                 },
             },
             dashboard = {
+                formats = { file = recent_file },
                 preset = {
+                    header = table.concat(logo, "\n"),
                     keys = {
                         { icon = "\u{f002} ", key = "f", desc = "Buscar archivo", action = ":lua Snacks.picker.smart()" },
                         { icon = "\u{f0b0} ", key = "g", desc = "Buscar texto", action = ":lua Snacks.picker.grep()" },
@@ -96,7 +102,7 @@ return {
                     },
                 },
                 sections = vim.list_extend(header(), {
-                    { section = "keys", gap = 1, padding = 2 },
+                    { section = "keys", gap = 0, padding = 2 },
                     { icon = "\u{f1da} ", title = "Recientes", section = "recent_files", cwd = true, limit = 5, indent = 2, padding = 2 },
                     { section = "startup" },
                 }),
@@ -198,8 +204,10 @@ return {
                 { "<leader>f", group = "find", icon = "\u{f002} " },
                 { "<leader>g", group = "git", icon = "\u{e702} " },
                 { "<leader>m", group = "markdown", icon = "\u{f48a} " },
+                { "<leader>r", group = "refactor", icon = "\u{f044} " },
                 { "<leader>t", group = "tasks", icon = "\u{f0ae} " },
                 { "<leader>u", group = "ui", icon = "󰙵 " },
+                { "gs", group = "surround", mode = { "n", "x" } },
             },
         },
     },
@@ -223,7 +231,6 @@ return {
         "sphamba/smear-cursor.nvim",
         event = "VeryLazy",
         opts = {
-            cursor_color = "#FF4D1F",
             stiffness = 0.7,
             trailing_stiffness = 0.45,
             distance_stop_animating = 0.5,

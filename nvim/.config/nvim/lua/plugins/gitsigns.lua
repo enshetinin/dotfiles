@@ -10,12 +10,14 @@ return {
         attach_to_untracked = true,
 
         signs = {
+            -- Same bar for every change (only the color differs), like the IDE gutter;
+            -- mixing ▎ (left edge) and ╎ (cell center) left the bars misaligned
             add = { text = "▎" },
-            change = { text = "╎" },
+            change = { text = "▎" },
             delete = { text = "▁" },
             topdelete = { text = "▔" },
-            changedelete = { text = "╎" },
-            untracked = { text = "┆" },
+            changedelete = { text = "▎" },
+            untracked = { text = "▎" },
         },
 
         -- don't show blame permanenty
@@ -72,11 +74,12 @@ return {
                 "Stage or unstage of the change"
             )
 
+            -- <leader>gs already toggles (stage / unstage) the hunk
             map(
                 "n",
                 "<leader>gu",
-                "<cmd>Gitsigns undo_stage_hunk<CR>",
-                "Undo last stage"
+                "<cmd>Gitsigns reset_buffer_index<CR>",
+                "Unstage whole file"
             )
 
             map(

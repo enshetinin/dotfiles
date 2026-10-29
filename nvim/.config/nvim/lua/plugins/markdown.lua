@@ -10,7 +10,7 @@ return {
             completions = {
                 lsp = { enabled = true },
             },
-            -- Rainbow headings with a tinted band (colors in colors/yev.lua)
+            -- Rainbow headings with a tinted band (colors from colors/jetbrains.lua)
             heading = {
                 sign = false,
                 icons = { "󰉫 ", "󰉬 ", "󰉭 ", "󰉮 ", "󰉯 ", "󰉰 " },

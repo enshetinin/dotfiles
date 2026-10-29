@@ -12,9 +12,7 @@ All i want is a terminal and clear minimalistic interface to interact with.
 So the minimal here is a minimal configuration for:
 
 - Neovim
-- tmux
 - Ghostty
-- Zellij
 - Fastfetch
 - Zsh
 
@@ -23,23 +21,14 @@ Everything is managed by GNU Stow
 ```mermaid
 flowchart TD
     A[dotfiles/] --> B[nvim/]
-    A --> C[tmux/]
     A --> D[ghostty/]
-    A --> E[zellij/]
 
     B --> B1[".config/"]
     B1 --> B2[nvim/]
 
-    C --> C1[".config/"]
-    C1 --> C2[tmux/]
-
     D --> D1[".config/"]
     D1 --> D2[ghostty/]
     D2 --> D3[config]
-
-    E --> E1["./config/"]
-    E1 --> E2[zellij/]
-    E2 --> E3[config.kdl]
 ```
         
 Each directory is independent Stow package
@@ -49,7 +38,7 @@ Each directory is independent Stow package
 ## Dependencies needed:
 
 ```bash
-brew install git stow neovim tmux lazygit ripgrep llvm
+brew install git stow neovim lazygit ripgrep llvm
 brew install --cask ghostty
 ```
 
@@ -75,5 +64,5 @@ cd "$HOME/dotfiles"
 
 ```bash
 stow --verbose --target="$HOME" \
-    nvim tmux ghostty zsh
+    nvim ghostty zsh
 ```

@@ -1,23 +1,33 @@
-# Ghostty — Yev Neon
-# Colors live in themes/yev.
+# Ghostty — JetBrains look (matches nvim's colors/jetbrains.lua)
 # Reload with cmd+shift+, — list every option with: ghostty +show-config --default --docs
 
-theme = yev
+theme = dark:jetbrains-dark,light:jetbrains-light
 
 # --- Font ---------------------------------------------------------------
-font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 18
+# Plain JetBrains Mono, the IDE font. Ghostty ships Nerd Font icons built in and
+# sizes/centers them itself (the patched "Mono" variant squeezes them into one cell).
+font-family = "JetBrains Mono"
+font-size = 14
+# Line spacing 1.2, like the IDE editor
 adjust-cell-height = 20%
 font-thicken = false
+# Ligatures on, like JetBrains Mono in the IDE
+font-feature = calt
+font-feature = liga
 
 # --- Window -------------------------------------------------------------
-background-opacity = 0.82
-background-blur = true
-macos-titlebar-style = tabs
+# Light transparency with blur so the desktop shows through softly
+background-opacity = 0.92
+background-blur = 20
+macos-titlebar-style = transparent
 macos-option-as-alt = left
-window-padding-x = 18
-window-padding-y = 14
-window-padding-balance = true
+window-padding-x = 14
+window-padding-y = 10
+# equal: same padding on all four sides (true shifts leftover pixels to the bottom)
+window-padding-balance = equal
+# background, not extend: extend stretches nvim's statusline/mode colors into the
+# padding, making the bottom bar look thick with its text off-center
+window-padding-color = background
 window-width = 120
 window-height = 35
 window-position-x = 400
@@ -26,7 +36,8 @@ window-save-state = never
 confirm-close-surface = false
 
 # --- Cursor -------------------------------------------------------------
-cursor-style = block
+# Thin blinking caret, like the IDE
+cursor-style = bar
 cursor-style-blink = true
 shell-integration-features = no-cursor
 
@@ -34,7 +45,7 @@ shell-integration-features = no-cursor
 scrollback-limit = 50000000
 copy-on-select = clipboard
 mouse-hide-while-typing = true
-unfocused-split-opacity = 0.85
+unfocused-split-opacity = 0.9
 
 # --- Quick terminal (drop-down) -----------------------------------------
 # Global hotkey needs Accessibility permission for Ghostty in System Settings.

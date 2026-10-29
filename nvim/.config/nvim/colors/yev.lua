@@ -1,7 +1,7 @@
--- Yev Neon — personal colorscheme (Yev Design System v1.0).
+-- Yev — personal colorscheme, Kanagawa palette (Wave dark / Lotus light).
 --
--- Ink background with a violet cast, Yev Signal (#FF4D1F) as the anchor
--- accent and a set of neon hues around it. Mirrors ghostty/themes/yev.
+-- Same highlight layout as before (statusline, snacks, blink...), colors from
+-- rebelot/kanagawa.nvim. Mirrors ghostty/themes/yev.
 --
 -- vim.g.yev_transparent = true  -> let the terminal (and its blur) show through
 -- vim.o.background = "light"    -> light variant
@@ -17,53 +17,75 @@ local transparent = dark and vim.g.yev_transparent == true
 
 -- stylua: ignore
 local p = dark and {
-    bg      = "#0F0E14", -- ink
-    mantle  = "#0A090E",
-    surface = "#17151F",
-    raised  = "#221F2E",
-    line    = "#1B1925",
-    visual  = "#352A4D",
-    border  = "#5D5480",
-    faint   = "#4F4A66",
-    comment = "#857DA3",
-    muted   = "#A39CBF",
-    fg      = "#E6E2F2",
-    strong  = "#FBF8FF",
+    -- Kanagawa Wave
+    bg      = "#1F1F28", -- sumiInk3
+    mantle  = "#16161D", -- sumiInk0
+    surface = "#1A1A22", -- sumiInk2
+    raised  = "#2A2A37", -- sumiInk4
+    line    = "#2A2A37",
+    visual  = "#2D4F67", -- waveBlue2
+    border  = "#54546D", -- sumiInk6
+    faint   = "#54546D",
+    comment = "#727169", -- fujiGray
+    muted   = "#938AA9", -- springViolet1
+    fg      = "#DCD7BA", -- fujiWhite
+    strong  = "#E9E4C6",
 
-    signal  = "#FF4D1F",
-    orange  = "#FF8E4D",
-    yellow  = "#FFCB6B",
-    green   = "#7FE3A0",
-    teal    = "#4FD6BE",
-    cyan    = "#6BD4FF",
-    blue    = "#7AA2FF",
-    purple  = "#B392FF",
-    pink    = "#FF6AC1",
-    red     = "#FF5577",
+    signal  = "#7E9CD8", -- crystalBlue (main accent)
+    orange  = "#FFA066", -- surimiOrange
+    yellow  = "#E6C384", -- carpYellow
+    green   = "#98BB6C", -- springGreen
+    teal    = "#7AA89F", -- waveAqua2
+    cyan    = "#7FB4CA", -- springBlue
+    blue    = "#7E9CD8", -- crystalBlue
+    purple  = "#957FB8", -- oniViolet
+    pink    = "#D27E99", -- sakuraPink
+    red     = "#E46876", -- waveRed
+
+    violet2 = "#B8B4D0", -- oniViolet2 (parameters)
+    punct   = "#9CABCA", -- springViolet2
+    sand    = "#C0A36E", -- boatYellow2 (operators)
+    peach   = "#FF5D62", -- peachRed
+    warn    = "#FF9E3B", -- roninYellow
+    error   = "#E82424", -- samuraiRed
+    git_add = "#76946A", -- autumnGreen
+    git_chg = "#DCA561", -- autumnYellow
+    git_del = "#C34043", -- autumnRed
 } or {
-    bg      = "#F7F5FB", -- paper
-    mantle  = "#EEEBF5",
-    surface = "#FFFFFF",
-    raised  = "#E6E1F2",
-    line    = "#EFEBF7",
-    visual  = "#DCD2F5",
-    border  = "#B5ABD4",
-    faint   = "#B3ADC6",
-    comment = "#7C7596",
-    muted   = "#5E5878",
-    fg      = "#1E1A2B",
-    strong  = "#000000",
+    -- Kanagawa Lotus
+    bg      = "#F2ECBC", -- lotusWhite3
+    mantle  = "#E7DBA0", -- lotusWhite4
+    surface = "#E5DDB0", -- lotusWhite2
+    raised  = "#DCD5AC", -- lotusWhite1
+    line    = "#E4D794",
+    visual  = "#C9CBD1", -- lotusViolet3
+    border  = "#A09CAC", -- lotusViolet1
+    faint   = "#A09CAC",
+    comment = "#8A8980", -- lotusGray3
+    muted   = "#716E61", -- lotusGray2
+    fg      = "#545464", -- lotusInk1
+    strong  = "#43436C", -- lotusInk2
 
-    signal  = "#E8380D",
-    orange  = "#C2560F",
-    yellow  = "#946600",
-    green   = "#1F8049",
-    teal    = "#0B8573",
-    cyan    = "#0A75A3",
-    blue    = "#3456D1",
-    purple  = "#7A3FE0",
-    pink    = "#C22B8A",
-    red     = "#D22B4B",
+    signal  = "#4D699B", -- lotusBlue4
+    orange  = "#CC6D00", -- lotusOrange
+    yellow  = "#77713F", -- lotusYellow
+    green   = "#6F894E", -- lotusGreen
+    teal    = "#597B75", -- lotusAqua
+    cyan    = "#6693BF", -- lotusTeal2
+    blue    = "#4D699B", -- lotusBlue4
+    purple  = "#624C83", -- lotusViolet4
+    pink    = "#B35B79", -- lotusPink
+    red     = "#C84053", -- lotusRed
+
+    violet2 = "#5D57A3", -- lotusBlue5
+    punct   = "#4E8CA2", -- lotusTeal1
+    sand    = "#836F4A", -- lotusYellow2
+    peach   = "#D7474B", -- lotusRed2
+    warn    = "#E98A00", -- lotusOrange2
+    error   = "#E82424", -- lotusRed3
+    git_add = "#6E915F", -- lotusGreen2
+    git_chg = "#DE9800", -- lotusYellow3
+    git_del = "#D7474B", -- lotusRed2
 }
 
 -- Mix `color` over `base` (alpha 0..1). Used for tinted backgrounds.
@@ -99,7 +121,7 @@ local groups = {
     CursorLine    = { bg = p.line },
     CursorColumn  = { bg = p.line },
     ColorColumn   = { bg = p.line },
-    CursorLineNr  = { fg = p.signal, bold = true },
+    CursorLineNr  = { fg = p.warn, bold = true },
     LineNr        = { fg = p.faint },
     LineNrAbove   = { fg = p.faint },
     LineNrBelow   = { fg = p.faint },
@@ -115,18 +137,18 @@ local groups = {
     Title         = { fg = p.signal, bold = true },
     Visual        = { bg = p.visual },
     VisualNOS     = { bg = p.visual },
-    Search        = { fg = p.strong, bg = blend(p.purple, 0.35) },
-    IncSearch     = { fg = p.bg, bg = p.signal, bold = true },
+    Search        = { fg = p.fg, bg = p.visual },
+    IncSearch     = { fg = p.bg, bg = p.warn, bold = true },
     CurSearch     = { link = "IncSearch" },
     Substitute    = { fg = p.bg, bg = p.pink },
-    MatchParen    = { fg = p.signal, bg = blend(p.signal, 0.18), bold = true },
+    MatchParen    = { fg = p.warn, bold = true },
     QuickFixLine  = { bg = p.raised, bold = true },
     ModeMsg       = { fg = p.muted, bold = true },
     MoreMsg       = { fg = p.green, bold = true },
     Question      = { fg = p.cyan },
     MsgArea       = { fg = p.fg },
-    ErrorMsg      = { fg = p.red, bold = true },
-    WarningMsg    = { fg = p.yellow, bold = true },
+    ErrorMsg      = { fg = p.error, bold = true },
+    WarningMsg    = { fg = p.warn, bold = true },
     WildMenu      = { fg = p.bg, bg = p.purple },
 
     StatusLine    = { fg = p.muted, bg = transparent and "NONE" or p.mantle },
@@ -153,100 +175,100 @@ local groups = {
     SpellLocal    = { undercurl = true, sp = p.cyan },
     SpellRare     = { undercurl = true, sp = p.purple },
 
-    DiffAdd       = { bg = blend(p.green, 0.14) },
-    DiffChange    = { bg = blend(p.blue, 0.12) },
-    DiffDelete    = { fg = blend(p.red, 0.6), bg = blend(p.red, 0.12) },
-    DiffText      = { bg = blend(p.blue, 0.30) },
-    Added         = { fg = p.green },
-    Changed       = { fg = p.blue },
-    Removed       = { fg = p.red },
+    DiffAdd       = { bg = blend(p.git_add, 0.25) },
+    DiffChange    = { bg = blend(p.blue, 0.15) },
+    DiffDelete    = { fg = p.git_del, bg = blend(p.git_del, 0.20) },
+    DiffText      = { bg = blend(p.git_chg, 0.30) },
+    Added         = { fg = p.git_add },
+    Changed       = { fg = p.git_chg },
+    Removed       = { fg = p.git_del },
 
     -- Syntax ---------------------------------------------------------------
     Comment       = { fg = p.comment, italic = true },
     Constant      = { fg = p.orange },
     String        = { fg = p.green },
     Character     = { fg = p.green },
-    Number        = { fg = p.orange },
+    Number        = { fg = p.pink },
     Boolean       = { fg = p.orange, bold = true },
-    Float         = { fg = p.orange },
+    Float         = { fg = p.pink },
     Identifier    = { fg = p.fg },
     Function      = { fg = p.blue },
-    Statement     = { fg = p.purple },
-    Conditional   = { fg = p.purple, italic = true },
-    Repeat        = { fg = p.purple, italic = true },
+    Statement     = { fg = p.purple, bold = true },
+    Conditional   = { fg = p.purple },
+    Repeat        = { fg = p.purple },
     Label         = { fg = p.pink },
-    Operator      = { fg = p.pink },
+    Operator      = { fg = p.sand },
     Keyword       = { fg = p.purple, italic = true },
-    Exception     = { fg = p.pink, italic = true },
-    PreProc       = { fg = p.pink },
-    Include       = { fg = p.pink, italic = true },
-    Define        = { fg = p.pink },
-    Macro         = { fg = p.teal },
-    Type          = { fg = p.yellow },
+    Exception     = { fg = p.peach },
+    PreProc       = { fg = p.red },
+    Include       = { fg = p.red },
+    Define        = { fg = p.red },
+    Macro         = { fg = p.red },
+    Type          = { fg = p.teal },
     StorageClass  = { fg = p.purple },
-    Structure     = { fg = p.yellow },
-    Typedef       = { fg = p.yellow },
+    Structure     = { fg = p.teal },
+    Typedef       = { fg = p.teal },
     Special       = { fg = p.cyan },
-    SpecialChar   = { fg = p.pink },
+    SpecialChar   = { fg = p.sand, bold = true },
     Tag           = { fg = p.pink },
-    Delimiter     = { fg = p.muted },
+    Delimiter     = { fg = p.punct },
     SpecialComment = { fg = p.muted, italic = true },
     Debug         = { fg = p.signal },
     Underlined    = { underline = true },
     Bold          = { bold = true },
     Italic        = { italic = true },
-    Error         = { fg = p.red },
+    Error         = { fg = p.error },
     Todo          = { fg = p.bg, bg = p.signal, bold = true },
 
     -- Treesitter -----------------------------------------------------------
     ["@variable"]                 = { fg = p.fg },
     ["@variable.builtin"]         = { fg = p.red, italic = true },
-    ["@variable.parameter"]       = { fg = p.orange, italic = true },
-    ["@variable.member"]          = { fg = p.cyan },
-    ["@property"]                 = { fg = p.cyan },
+    ["@variable.parameter"]       = { fg = p.violet2 },
+    ["@variable.member"]          = { fg = p.yellow },
+    ["@property"]                 = { fg = p.yellow },
     ["@constant"]                 = { fg = p.orange },
     ["@constant.builtin"]         = { fg = p.orange, bold = true },
-    ["@constant.macro"]           = { fg = p.teal },
-    ["@module"]                   = { fg = p.yellow, italic = true },
+    ["@constant.macro"]           = { fg = p.red },
+    ["@module"]                   = { fg = p.orange },
     ["@label"]                    = { fg = p.pink },
     ["@string"]                   = { link = "String" },
-    ["@string.escape"]            = { fg = p.pink },
-    ["@string.regexp"]            = { fg = p.teal },
+    ["@string.escape"]            = { fg = p.sand, bold = true },
+    ["@string.regexp"]            = { fg = p.sand },
     ["@string.special"]           = { fg = p.teal },
     ["@string.special.url"]       = { fg = p.cyan, underline = true },
     ["@character"]                = { link = "Character" },
     ["@number"]                   = { link = "Number" },
     ["@boolean"]                  = { link = "Boolean" },
-    ["@type"]                     = { fg = p.yellow },
-    ["@type.builtin"]             = { fg = p.yellow, italic = true },
-    ["@type.definition"]          = { fg = p.yellow, bold = true },
-    ["@attribute"]                = { fg = p.teal },
+    ["@type"]                     = { fg = p.teal },
+    ["@type.builtin"]             = { fg = p.teal },
+    ["@type.definition"]          = { fg = p.teal },
+    ["@attribute"]                = { fg = p.orange },
     ["@function"]                 = { fg = p.blue },
-    ["@function.builtin"]         = { fg = p.teal },
+    ["@function.builtin"]         = { fg = p.cyan },
     ["@function.call"]            = { fg = p.blue },
-    ["@function.macro"]           = { fg = p.teal },
+    ["@function.macro"]           = { fg = p.red },
     ["@function.method"]          = { fg = p.blue },
     ["@function.method.call"]     = { fg = p.blue },
-    ["@constructor"]              = { fg = p.yellow },
-    ["@operator"]                 = { fg = p.pink },
+    ["@constructor"]              = { fg = p.cyan },
+    ["@operator"]                 = { fg = p.sand },
     ["@keyword"]                  = { fg = p.purple, italic = true },
-    ["@keyword.function"]         = { fg = p.purple, italic = true },
-    ["@keyword.return"]           = { fg = p.pink, italic = true, bold = true },
-    ["@keyword.import"]           = { fg = p.pink, italic = true },
-    ["@keyword.operator"]         = { fg = p.purple },
-    ["@keyword.exception"]        = { fg = p.pink, italic = true },
-    ["@punctuation.delimiter"]    = { fg = p.muted },
-    ["@punctuation.bracket"]      = { fg = p.muted },
-    ["@punctuation.special"]      = { fg = p.pink },
+    ["@keyword.function"]         = { fg = p.purple },
+    ["@keyword.return"]           = { fg = p.peach, italic = true },
+    ["@keyword.import"]           = { fg = p.red },
+    ["@keyword.operator"]         = { fg = p.sand, bold = true },
+    ["@keyword.exception"]        = { fg = p.peach },
+    ["@punctuation.delimiter"]    = { fg = p.punct },
+    ["@punctuation.bracket"]      = { fg = p.punct },
+    ["@punctuation.special"]      = { fg = p.cyan },
     ["@comment"]                  = { link = "Comment" },
     ["@comment.todo"]             = { fg = p.bg, bg = p.signal, bold = true },
     ["@comment.note"]             = { fg = p.bg, bg = p.cyan, bold = true },
     ["@comment.warning"]          = { fg = p.bg, bg = p.yellow, bold = true },
     ["@comment.error"]            = { fg = p.bg, bg = p.red, bold = true },
-    ["@tag"]                      = { fg = p.pink },
-    ["@tag.builtin"]              = { fg = p.pink },
+    ["@tag"]                      = { fg = p.purple },
+    ["@tag.builtin"]              = { fg = p.purple },
     ["@tag.attribute"]            = { fg = p.yellow, italic = true },
-    ["@tag.delimiter"]            = { fg = p.muted },
+    ["@tag.delimiter"]            = { fg = p.punct },
     ["@markup.heading"]           = { fg = p.signal, bold = true },
     ["@markup.strong"]            = { fg = p.strong, bold = true },
     ["@markup.italic"]            = { italic = true },
@@ -260,16 +282,16 @@ local groups = {
     ["@markup.list"]              = { fg = p.signal },
     ["@markup.list.checked"]      = { fg = p.green },
     ["@markup.list.unchecked"]    = { fg = p.muted },
-    ["@diff.plus"]                = { fg = p.green },
-    ["@diff.minus"]               = { fg = p.red },
-    ["@diff.delta"]               = { fg = p.blue },
+    ["@diff.plus"]                = { fg = p.git_add },
+    ["@diff.minus"]               = { fg = p.git_del },
+    ["@diff.delta"]               = { fg = p.git_chg },
 
     -- LSP semantic tokens
     ["@lsp.type.namespace"]       = { link = "@module" },
     ["@lsp.type.parameter"]       = { link = "@variable.parameter" },
     ["@lsp.type.property"]        = { link = "@property" },
     ["@lsp.type.enumMember"]      = { link = "@constant" },
-    ["@lsp.type.interface"]       = { fg = p.yellow, italic = true },
+    ["@lsp.type.interface"]       = { fg = p.teal },
     ["@lsp.type.macro"]           = { link = "@function.macro" },
     ["@lsp.type.lifetime"]        = { fg = p.pink, italic = true },
     ["@lsp.mod.mutable"]          = { underline = true },
@@ -283,26 +305,26 @@ local groups = {
     LspCodeLens                   = { fg = p.comment, italic = true },
 
     -- Diagnostics
-    DiagnosticError               = { fg = p.red },
-    DiagnosticWarn                = { fg = p.yellow },
+    DiagnosticError               = { fg = p.error },
+    DiagnosticWarn                = { fg = p.warn },
     DiagnosticInfo                = { fg = p.cyan },
     DiagnosticHint                = { fg = p.teal },
     DiagnosticOk                  = { fg = p.green },
-    DiagnosticVirtualTextError    = { fg = p.red, bg = blend(p.red, 0.10), italic = true },
-    DiagnosticVirtualTextWarn     = { fg = p.yellow, bg = blend(p.yellow, 0.08), italic = true },
+    DiagnosticVirtualTextError    = { fg = p.error, bg = blend(p.error, 0.10), italic = true },
+    DiagnosticVirtualTextWarn     = { fg = p.warn, bg = blend(p.warn, 0.08), italic = true },
     DiagnosticVirtualTextInfo     = { fg = p.cyan, bg = blend(p.cyan, 0.08), italic = true },
     DiagnosticVirtualTextHint     = { fg = p.teal, bg = blend(p.teal, 0.08), italic = true },
-    DiagnosticUnderlineError      = { undercurl = true, sp = p.red },
-    DiagnosticUnderlineWarn       = { undercurl = true, sp = p.yellow },
+    DiagnosticUnderlineError      = { undercurl = true, sp = p.error },
+    DiagnosticUnderlineWarn       = { undercurl = true, sp = p.warn },
     DiagnosticUnderlineInfo       = { undercurl = true, sp = p.cyan },
     DiagnosticUnderlineHint       = { undercurl = true, sp = p.teal },
     DiagnosticUnnecessary         = { fg = p.comment, italic = true },
     DiagnosticDeprecated          = { strikethrough = true },
 
     -- Git signs ------------------------------------------------------------
-    GitSignsAdd                   = { fg = p.green },
-    GitSignsChange                = { fg = p.blue },
-    GitSignsDelete                = { fg = p.red },
+    GitSignsAdd                   = { fg = p.git_add },
+    GitSignsChange                = { fg = p.git_chg },
+    GitSignsDelete                = { fg = p.git_del },
     GitSignsUntracked             = { fg = p.faint },
     GitSignsCurrentLineBlame      = { fg = p.comment, italic = true },
 
@@ -314,21 +336,21 @@ local groups = {
     YevStDir      = { fg = p.comment, bg = p.raised },
     YevStMuted    = { fg = p.comment, bg = transparent and "NONE" or p.mantle },
     YevStBranch   = { fg = p.purple, bg = transparent and "NONE" or p.mantle, bold = true },
-    YevStModified = { fg = p.signal, bg = p.raised, bold = true },
-    YevStError    = { fg = p.red, bg = transparent and "NONE" or p.mantle },
-    YevStWarn     = { fg = p.yellow, bg = transparent and "NONE" or p.mantle },
+    YevStModified = { fg = p.warn, bg = p.raised, bold = true },
+    YevStError    = { fg = p.error, bg = transparent and "NONE" or p.mantle },
+    YevStWarn     = { fg = p.warn, bg = transparent and "NONE" or p.mantle },
     YevStInfo     = { fg = p.cyan, bg = transparent and "NONE" or p.mantle },
     YevStHint     = { fg = p.teal, bg = transparent and "NONE" or p.mantle },
     YevStAgent    = { fg = p.orange, bg = transparent and "NONE" or p.mantle, bold = true },
     YevStLsp      = { fg = p.teal, bg = transparent and "NONE" or p.mantle },
 
     -- Dashboard gradient (snacks) -------------------------------------------
-    YevGrad1 = { fg = p.pink, bold = true },
-    YevGrad2 = { fg = blend(p.pink, 0.5, p.signal), bold = true },
-    YevGrad3 = { fg = p.signal, bold = true },
-    YevGrad4 = { fg = p.orange, bold = true },
-    YevGrad5 = { fg = blend(p.orange, 0.5, p.yellow), bold = true },
-    YevGrad6 = { fg = p.yellow, bold = true },
+    YevGrad1 = { fg = p.cyan, bold = true },
+    YevGrad2 = { fg = p.blue, bold = true },
+    YevGrad3 = { fg = p.purple, bold = true },
+    YevGrad4 = { fg = p.pink, bold = true },
+    YevGrad5 = { fg = p.red, bold = true },
+    YevGrad6 = { fg = p.orange, bold = true },
 
     -- snacks.nvim ----------------------------------------------------------
     SnacksNormal               = { link = "NormalFloat" },
@@ -391,24 +413,24 @@ local groups = {
     BlinkCmpKind               = { fg = p.purple },
     BlinkCmpKindFunction       = { fg = p.blue },
     BlinkCmpKindMethod         = { fg = p.blue },
-    BlinkCmpKindConstructor    = { fg = p.yellow },
+    BlinkCmpKindConstructor    = { fg = p.cyan },
     BlinkCmpKindVariable       = { fg = p.fg },
-    BlinkCmpKindField          = { fg = p.cyan },
-    BlinkCmpKindProperty       = { fg = p.cyan },
-    BlinkCmpKindClass          = { fg = p.yellow },
-    BlinkCmpKindInterface      = { fg = p.yellow },
-    BlinkCmpKindStruct         = { fg = p.yellow },
-    BlinkCmpKindEnum           = { fg = p.yellow },
+    BlinkCmpKindField          = { fg = p.yellow },
+    BlinkCmpKindProperty       = { fg = p.yellow },
+    BlinkCmpKindClass          = { fg = p.teal },
+    BlinkCmpKindInterface      = { fg = p.teal },
+    BlinkCmpKindStruct         = { fg = p.teal },
+    BlinkCmpKindEnum           = { fg = p.teal },
     BlinkCmpKindEnumMember     = { fg = p.orange },
     BlinkCmpKindConstant       = { fg = p.orange },
-    BlinkCmpKindModule         = { fg = p.pink },
+    BlinkCmpKindModule         = { fg = p.orange },
     BlinkCmpKindKeyword        = { fg = p.purple },
     BlinkCmpKindSnippet        = { fg = p.green },
     BlinkCmpKindText           = { fg = p.muted },
     BlinkCmpKindFile           = { fg = p.fg },
     BlinkCmpKindFolder         = { fg = p.blue },
     BlinkCmpKindColor          = { fg = p.pink },
-    BlinkCmpKindTypeParameter  = { fg = p.orange },
+    BlinkCmpKindTypeParameter  = { fg = p.violet2 },
 
     -- noice.nvim -----------------------------------------------------------
     NoiceCmdlinePopup              = { fg = p.fg, bg = p.surface },
@@ -469,18 +491,18 @@ local groups = {
     MiniHipatternsNote  = { fg = p.bg, bg = p.cyan, bold = true },
 
     -- render-markdown: rainbow headings ------------------------------------
-    RenderMarkdownH1   = { fg = p.signal, bold = true },
-    RenderMarkdownH2   = { fg = p.orange, bold = true },
-    RenderMarkdownH3   = { fg = p.yellow, bold = true },
+    RenderMarkdownH1   = { fg = p.blue, bold = true },
+    RenderMarkdownH2   = { fg = p.purple, bold = true },
+    RenderMarkdownH3   = { fg = p.teal, bold = true },
     RenderMarkdownH4   = { fg = p.green, bold = true },
-    RenderMarkdownH5   = { fg = p.cyan, bold = true },
-    RenderMarkdownH6   = { fg = p.purple, bold = true },
-    RenderMarkdownH1Bg = { bg = blend(p.signal, 0.16) },
-    RenderMarkdownH2Bg = { bg = blend(p.orange, 0.13) },
-    RenderMarkdownH3Bg = { bg = blend(p.yellow, 0.11) },
+    RenderMarkdownH5   = { fg = p.yellow, bold = true },
+    RenderMarkdownH6   = { fg = p.orange, bold = true },
+    RenderMarkdownH1Bg = { bg = blend(p.blue, 0.13) },
+    RenderMarkdownH2Bg = { bg = blend(p.purple, 0.13) },
+    RenderMarkdownH3Bg = { bg = blend(p.teal, 0.11) },
     RenderMarkdownH4Bg = { bg = blend(p.green, 0.11) },
-    RenderMarkdownH5Bg = { bg = blend(p.cyan, 0.11) },
-    RenderMarkdownH6Bg = { bg = blend(p.purple, 0.12) },
+    RenderMarkdownH5Bg = { bg = blend(p.yellow, 0.11) },
+    RenderMarkdownH6Bg = { bg = blend(p.orange, 0.11) },
     RenderMarkdownCode       = { bg = p.surface },
     RenderMarkdownCodeInline = { fg = p.teal, bg = p.surface },
     RenderMarkdownBullet     = { fg = p.signal },
@@ -493,7 +515,7 @@ local groups = {
     RenderMarkdownDash       = { fg = p.border },
 
     -- nvim-dap
-    DapBreakpoint = { fg = p.red },
+    DapBreakpoint = { fg = p.error },
     DapStopped    = { fg = p.yellow },
 }
 
@@ -504,11 +526,11 @@ end
 -- Terminal palette (:terminal, lazygit, Claude). Same as Ghostty.
 -- stylua: ignore
 local term = dark and {
-    "#221F2E", p.red, p.green, p.yellow, p.blue, p.purple, p.cyan, p.fg,
-    "#4F4A66", "#FF7A93", "#9DF0B8", "#FFD98F", "#9BBBFF", "#CDB3FF", "#92E1FF", p.strong,
+    "#16161D", "#C34043", "#76946A", "#C0A36E", "#7E9CD8", "#957FB8", "#6A9589", "#C8C093",
+    "#727169", "#E82424", "#98BB6C", "#E6C384", "#7FB4CA", "#938AA9", "#7AA89F", "#DCD7BA",
 } or {
-    p.fg, p.red, p.green, p.yellow, p.blue, p.purple, p.cyan, p.raised,
-    p.muted, p.signal, p.teal, p.orange, p.blue, p.pink, p.cyan, p.faint,
+    "#1F1F28", "#C84053", "#6F894E", "#77713F", "#4D699B", "#B35B79", "#597B75", "#545464",
+    "#8A8980", "#D7474B", "#6E915F", "#836F4A", "#6693BF", "#624C83", "#5E857A", "#43436C",
 }
 for index, color in ipairs(term) do
     vim.g["terminal_color_" .. (index - 1)] = color

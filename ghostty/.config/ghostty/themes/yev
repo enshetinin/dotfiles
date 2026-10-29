@@ -1,29 +1,29 @@
-# Yev Neon — mirrors nvim/colors/yev.lua.
+# Yev — Kanagawa Wave. Mirrors nvim/colors/yev.lua.
 
-background = #0F0E14
-foreground = #E6E2F2
+background = #1F1F28
+foreground = #DCD7BA
 
-cursor-color = #FF4D1F
-cursor-text = #0F0E14
+cursor-color = #C8C093
+cursor-text = #1F1F28
 
-selection-background = #352A4D
-selection-foreground = #E6E2F2
+selection-background = #2D4F67
+selection-foreground = #C8C093
 
 # normal
-palette = 0=#221F2E
-palette = 1=#FF5577
-palette = 2=#7FE3A0
-palette = 3=#FFCB6B
-palette = 4=#7AA2FF
-palette = 5=#B392FF
-palette = 6=#6BD4FF
-palette = 7=#E6E2F2
+palette = 0=#16161D
+palette = 1=#C34043
+palette = 2=#76946A
+palette = 3=#C0A36E
+palette = 4=#7E9CD8
+palette = 5=#957FB8
+palette = 6=#6A9589
+palette = 7=#C8C093
 # bright
-palette = 8=#4F4A66
-palette = 9=#FF7A93
-palette = 10=#9DF0B8
-palette = 11=#FFD98F
-palette = 12=#9BBBFF
-palette = 13=#CDB3FF
-palette = 14=#92E1FF
-palette = 15=#FBF8FF
+palette = 8=#727169
+palette = 9=#E82424
+palette = 10=#98BB6C
+palette = 11=#E6C384
+palette = 12=#7FB4CA
+palette = 13=#938AA9
+palette = 14=#7AA89F
+palette = 15=#DCD7BA

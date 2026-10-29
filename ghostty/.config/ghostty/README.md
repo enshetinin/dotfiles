@@ -1,6 +1,6 @@
 # Ghostty — atajos
 
-Config: `config` · Tema: `themes/yev` (Yev Neon)
+Config: `config` · Tema: `themes/jetbrains-dark` / `themes/jetbrains-light` (estilo JetBrains, igual que Neovim)
 Abrir config: `Cmd+,` · Recargar: `Cmd+Shift+,`
 
 ## Pestañas

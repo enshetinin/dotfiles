@@ -77,7 +77,5 @@ opt.clipboard = "unnamedplus"
 -- Completion menu (blink.cmp draws insert completion; this is for cmdline)
 opt.completeopt = { "menuone", "noselect", "popup", "fuzzy" }
 
--- Colorscheme (colors/yev.lua)
-vim.g.yev_transparent = true
+-- Colorscheme: lua/plugins/colorscheme.lua (colors/jetbrains.lua)
 opt.background = "dark"
-vim.cmd.colorscheme("yev")

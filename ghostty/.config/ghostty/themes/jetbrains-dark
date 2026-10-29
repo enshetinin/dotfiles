@@ -1,0 +1,31 @@
+# JetBrains Dark (New UI). Mirrors nvim/colors/jetbrains.lua.
+
+background = #1E1F22
+foreground = #BCBEC4
+
+cursor-color = #CED0D6
+cursor-text = #1E1F22
+
+selection-background = #214283
+selection-foreground = #DFE1E5
+
+split-divider-color = #393B40
+
+# normal
+palette = 0=#2B2D30
+palette = 1=#F75464
+palette = 2=#6AAB73
+palette = 3=#E0BB65
+palette = 4=#56A8F5
+palette = 5=#C77DBB
+palette = 6=#2AACB8
+palette = 7=#BCBEC4
+# bright
+palette = 8=#6F737A
+palette = 9=#FA7A86
+palette = 10=#8DC492
+palette = 11=#F2C55C
+palette = 12=#7DB9F7
+palette = 13=#D898CF
+palette = 14=#4FC7D2
+palette = 15=#DFE1E5

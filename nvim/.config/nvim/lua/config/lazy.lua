@@ -39,7 +39,7 @@ require("lazy").setup({
     },
 
     install = {
-        colorscheme = { "yev" },
+        colorscheme = { "jetbrains", "habamax" },
     },
 
     checker = {

@@ -33,11 +33,10 @@ map("n", "N", "Nzzzv", "Previous match")
 -- UI
 map("n", "<leader>ub", function()
     vim.o.background = vim.o.background == "dark" and "light" or "dark"
-    vim.cmd.colorscheme("yev")
 end, "Toggle light/dark")
 map("n", "<leader>ut", function()
-    vim.g.yev_transparent = not vim.g.yev_transparent
-    vim.cmd.colorscheme("yev")
+    vim.g.transparent = not vim.g.transparent
+    vim.cmd.colorscheme("jetbrains")
 end, "Toggle transparency")
 
 -- Agents: references and diagnostics to paste into any agent
